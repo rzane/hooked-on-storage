@@ -1,19 +1,23 @@
 import React from "react";
 import { createStorage, Storage, Adapter } from "../src";
+import { render } from "@testing-library/react";
 import { renderHook } from "@testing-library/react-hooks";
 
 export const createMemoryAdapter = (): Adapter => {
   const stored: Record<string, any> = {};
 
   return {
-    getItem(key) {
-      return key in stored ? stored[key] : null;
+    async getItem(key) {
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      return Promise.resolve(key in stored ? stored[key] : null);
     },
     setItem(key, value) {
       stored[key] = value;
+      return Promise.resolve();
     },
     removeItem(key) {
       delete stored[key];
+      return Promise.resolve();
     },
   };
 };
@@ -31,12 +35,6 @@ const makeStorage = () => {
 
 const renderStorage = (storage: Storage<string | undefined>) => {
   return renderHook(() => storage.useStorage(), {
-    wrapper: ({ children }) => <storage.Provider>{children}</storage.Provider>,
-  });
-};
-
-const renderHydrate = (storage: Storage<string | undefined>) => {
-  return renderHook(() => storage.useHydrated(), {
     wrapper: ({ children }) => <storage.Provider>{children}</storage.Provider>,
   });
 };
@@ -102,22 +100,26 @@ describe("createStorage", () => {
     });
   });
 
-  describe("useHydrated", () => {
-    it("errors without provider", () => {
+  describe("<Hydrated />", () => {
+    it("does not render children until hydration has completed", async () => {
       const storage = makeStorage();
-      const hook = renderHook(() => storage.useHydrated());
-      expect(hook.result.error.message).toMatch(/wrap this component/);
-    });
+      await storage.set("Loaded");
 
-    it("preemptively hydrates the value", async () => {
-      const storage = makeStorage();
-      await storage.set("foo");
+      const Display = () => {
+        const [value] = storage.useStorage();
+        return <p>{value}</p>;
+      };
 
-      const hydrate = renderHydrate(storage);
-      expect(hydrate.result.current).toEqual(false);
+      const { findByText } = render(
+        <storage.Provider>
+          <storage.Hydrated fallback={<p>Loading...</p>}>
+            <Display />
+          </storage.Hydrated>
+        </storage.Provider>
+      );
 
-      await hydrate.waitForNextUpdate();
-      expect(hydrate.result.current).toEqual(true);
+      await expect(findByText("Loading...")).resolves.toBeDefined();
+      await expect(findByText("Loaded")).resolves.toBeDefined();
     });
   });
 });

@@ -103,7 +103,7 @@ export function createStorage<T>({
 
   const Hydrated: React.FC<HydratedProps> = ({ fallback, children }) => {
     const { hydrated } = useContext();
-    return <React.Fragment>{hydrated ? fallback : children}</React.Fragment>;
+    return <React.Fragment>{hydrated ? children : fallback}</React.Fragment>;
   };
 
   return { get, set, remove, useStorage, Hydrated, Provider };
