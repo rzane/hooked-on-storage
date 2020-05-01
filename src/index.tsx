@@ -10,6 +10,7 @@ import {
 export function createStorage<Value>({
   adapter,
   key,
+  defaultValue,
   parse = JSON.parse,
   stringify = JSON.stringify,
 }: Config<Value>): Storage<Value> {
@@ -17,7 +18,7 @@ export function createStorage<Value>({
     const value = await adapter.getItem(key);
 
     if (value === null) {
-      return undefined;
+      return defaultValue;
     }
 
     return parse(value);
@@ -31,12 +32,16 @@ export function createStorage<Value>({
     await adapter.removeItem(key);
   };
 
-  const Context = React.createContext<StorageContext<Value> | undefined>(
-    undefined
-  );
+  const Context = React.createContext<StorageContext<Value>>({
+    loading: false,
+    value: defaultValue,
+    setValue() {
+      throw new Error("Your component needs to be wrapped in a <Provider />");
+    },
+  });
 
   const Provider: React.FC<ProviderProps> = ({ children }) => {
-    const [value, setValue] = React.useState<Value>();
+    const [value, setValue] = React.useState<Value>(defaultValue);
     const [loading, setLoading] = React.useState<boolean>(true);
 
     React.useEffect(() => {
@@ -61,13 +66,8 @@ export function createStorage<Value>({
   };
 
   const useStorage = (): UseStorage<Value> => {
-    const storage = React.useContext(Context);
-
-    if (!storage) {
-      throw new Error("Your component needs to be wrapped in a <Provider />");
-    }
-
-    return [storage.value, storage.setValue];
+    const { value, setValue } = React.useContext(Context);
+    return [value, setValue];
   };
 
   return { get, set, remove, Provider, useStorage };

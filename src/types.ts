@@ -11,21 +11,22 @@ export interface ProviderProps {
 export type Config<Value> = {
   key: string;
   adapter: AsyncStorage;
+  defaultValue: Value;
   parse?: (value: string) => Value;
   stringify?: (value: Value) => string;
 };
 
 export type SetValue<T> = React.Dispatch<React.SetStateAction<T>>;
-export type UseStorage<T> = [T | undefined, SetValue<T | undefined>];
+export type UseStorage<T> = [T, SetValue<T>];
 
 export interface StorageContext<Value> {
   loading: boolean;
-  value: Value | undefined;
-  setValue: SetValue<Value | undefined>;
+  value: Value;
+  setValue: SetValue<Value>;
 }
 
 export interface Storage<Value> {
-  get(): Promise<Value | undefined>;
+  get(): Promise<Value>;
   set(value: Value): Promise<void>;
   remove(): Promise<void>;
   useStorage(): UseStorage<Value>;
