@@ -5,15 +5,13 @@ export const createMemoryAdapter = (): Adapter => {
 
   return {
     getItem(key) {
-      return Promise.resolve(key in stored ? stored[key] : null);
+      return key in stored ? stored[key] : null;
     },
     setItem(key, value) {
       stored[key] = value;
-      return Promise.resolve();
     },
     removeItem(key) {
       delete stored[key];
-      return Promise.resolve();
     },
   };
 };

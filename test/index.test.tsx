@@ -53,6 +53,12 @@ describe("createStorage", () => {
   });
 
   describe("useStorage", () => {
+    it("errors without provider", () => {
+      const storage = makeStorage();
+      const hook = renderHook(() => storage.useStorage());
+      expect(hook.result.error.message).toMatch(/wrap this component/);
+    });
+
     it("automatically hydrates itself", async () => {
       const storage = makeStorage();
       await storage.set("foo");
@@ -82,6 +88,12 @@ describe("createStorage", () => {
   });
 
   describe("useHydrate", () => {
+    it("errors without provider", () => {
+      const storage = makeStorage();
+      const hook = renderHook(() => storage.useHydrate());
+      expect(hook.result.error.message).toMatch(/wrap this component/);
+    });
+
     it("preemptively hydrates the value", async () => {
       const storage = makeStorage();
       await storage.set("foo");
