@@ -36,7 +36,7 @@ export function createStorage<Value>({
 
   const Provider: React.FC<ProviderProps> = ({ children }) => {
     const [value, setState] = React.useState<Value>(defaultValue);
-    const [loaded, setLoaded] = React.useState(false);
+    const [hydrated, setHydrated] = React.useState(false);
 
     const setValue = React.useCallback(
       async (value: Value) => {
@@ -47,13 +47,13 @@ export function createStorage<Value>({
         }
 
         setState(value);
-        setLoaded(true);
+        setHydrated(true);
       },
-      [setState, setLoaded]
+      [setState, setHydrated]
     );
 
     return (
-      <Context.Provider value={{ loaded, value, setValue }}>
+      <Context.Provider value={{ hydrated, value, setValue }}>
         {children}
       </Context.Provider>
     );
@@ -70,10 +70,10 @@ export function createStorage<Value>({
   };
 
   const useHydrate = (): boolean => {
-    const { loaded, setValue } = useContext();
+    const { hydrated, setValue } = useContext();
 
     useEffect(() => {
-      if (loaded) {
+      if (hydrated) {
         return;
       }
 
@@ -89,13 +89,13 @@ export function createStorage<Value>({
       };
     }, []);
 
-    return loaded;
+    return hydrated;
   };
 
   const useStorage = (): UseStorage<Value> => {
-    const { loaded, value, setValue } = useContext();
+    const { hydrated, value, setValue } = useContext();
     useHydrate();
-    return [value, setValue, loaded];
+    return [value, setValue, hydrated];
   };
 
   return { get, set, remove, Provider, useStorage, useHydrate };

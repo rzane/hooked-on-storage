@@ -20,7 +20,7 @@ export type SetValue<T> = (value: T) => Promise<void>;
 export type UseStorage<T> = [T, SetValue<T>, boolean];
 
 export interface StorageContext<Value> {
-  loaded: boolean;
+  hydrated: boolean;
   value: Value;
   setValue: SetValue<Value>;
 }
