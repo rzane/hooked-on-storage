@@ -9,12 +9,11 @@ const Count = createStorage<number>({
 });
 
 const Counter = () => {
-  const hydrated = Count.useHydrate();
+  const [count, setCount, hydrated] = Count.useStorage();
+
   if (!hydrated) {
     return <p>Loading...</p>;
   }
-
-  const [count, setCount] = Count.useStorage();
 
   return (
     <div>
