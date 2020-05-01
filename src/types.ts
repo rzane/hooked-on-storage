@@ -23,6 +23,21 @@ export type Config<T> = {
 };
 
 /**
+ * Props for the `<Provider />` component.
+ */
+export interface ProviderProps {
+  children: React.ReactNode;
+}
+
+/**
+ * Props for the `<Hydrated />` component.
+ */
+export interface HydratedProps {
+  fallback: React.ReactNode;
+  children: React.ReactNode;
+}
+
+/**
  * The context that is passed down via the provider.
  */
 export interface StorageContext<T> {
@@ -47,7 +62,7 @@ export interface Storage<T> {
   get(): Promise<T>;
   set(value: T): Promise<void>;
   remove(): Promise<void>;
-  useHydrated(): boolean;
   useStorage(): UseStorage<T>;
-  Provider: React.FC;
+  Hydrated: React.FC<HydratedProps>;
+  Provider: React.FC<ProviderProps>;
 }

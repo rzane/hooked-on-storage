@@ -1,5 +1,12 @@
 import React from "react";
-import { Config, StorageContext, Storage, UseStorage } from "./types";
+import {
+  Config,
+  HydratedProps,
+  ProviderProps,
+  Storage,
+  StorageContext,
+  UseStorage,
+} from "./types";
 
 type Listener<T> = (value: T) => void;
 
@@ -44,7 +51,7 @@ export function createStorage<T>({
     change(defaultValue);
   };
 
-  const Provider: React.FC = ({ children }) => {
+  const Provider: React.FC<ProviderProps> = ({ children }) => {
     const [value, setState] = React.useState<T>(defaultValue);
     const [hydrated, setHydrated] = React.useState<boolean>(false);
 
@@ -94,10 +101,10 @@ export function createStorage<T>({
     return [value, set, hydrated];
   };
 
-  const useHydrated = (): boolean => {
+  const Hydrated: React.FC<HydratedProps> = ({ fallback, children }) => {
     const { hydrated } = useContext();
-    return hydrated;
+    return <React.Fragment>{hydrated ? fallback : children}</React.Fragment>;
   };
 
-  return { get, set, remove, useStorage, useHydrated, Provider };
+  return { get, set, remove, useStorage, Hydrated, Provider };
 }
