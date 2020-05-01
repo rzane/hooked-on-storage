@@ -5,7 +5,6 @@ import {
   Storage,
   StorageContext,
   UseStorage,
-  AsyncStorage,
 } from "./types";
 
 export function createStorage<Value>({
