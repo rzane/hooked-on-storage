@@ -36,7 +36,7 @@ const renderStorage = (storage: Storage<string | undefined>) => {
 };
 
 const renderHydrate = (storage: Storage<string | undefined>) => {
-  return renderHook(() => storage.useHydrate(), {
+  return renderHook(() => storage.useHydrated(), {
     wrapper: ({ children }) => <storage.Provider>{children}</storage.Provider>,
   });
 };
@@ -102,10 +102,10 @@ describe("createStorage", () => {
     });
   });
 
-  describe("useHydrate", () => {
+  describe("useHydrated", () => {
     it("errors without provider", () => {
       const storage = makeStorage();
-      const hook = renderHook(() => storage.useHydrate());
+      const hook = renderHook(() => storage.useHydrated());
       expect(hook.result.error.message).toMatch(/wrap this component/);
     });
 

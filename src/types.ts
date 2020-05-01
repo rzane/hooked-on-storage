@@ -1,35 +1,53 @@
+/**
+ * Any storage implementation, such as:
+ *
+ *   - `localStorage`
+ *   - `sessionStorage`
+ *   - `AsyncStorage`
+ */
 export interface Adapter {
   getItem(key: string): string | null | Promise<string | null>;
   setItem(key: string, value: string): void | Promise<void>;
   removeItem(key: string): void | Promise<void>;
 }
 
-export interface ProviderProps {
-  children: React.ReactNode;
-}
-
-export type Config<Value> = {
+/**
+ * Configuration settings for stored properties.
+ */
+export type Config<T> = {
   key: string;
   adapter: Adapter;
-  defaultValue: Value;
-  parse?: (value: string) => Value;
-  stringify?: (value: Value) => string;
+  defaultValue: T;
+  parse?: (value: string) => T;
+  stringify?: (value: T) => string;
 };
 
-export type SetValue<T> = (value: T) => Promise<void>;
-export type UseStorage<T> = [T, SetValue<T>, boolean];
-
-export interface StorageContext<Value> {
+/**
+ * The context that is passed down via the provider.
+ */
+export interface StorageContext<T> {
+  value: T;
   hydrated: boolean;
-  value: Value;
-  setValue: SetValue<Value>;
 }
 
-export interface Storage<Value> {
-  get(): Promise<Value>;
-  set(value: Value): Promise<void>;
+/**
+ * The function used to change a value in state.
+ */
+export type SetStorage<T> = (value: T) => Promise<void>;
+
+/**
+ * The value returned from `useStorage`.
+ */
+export type UseStorage<T> = [T, SetStorage<T>, boolean];
+
+/**
+ * Represents a stored property
+ */
+export interface Storage<T> {
+  get(): Promise<T>;
+  set(value: T): Promise<void>;
   remove(): Promise<void>;
-  useHydrate(): boolean;
-  useStorage(): UseStorage<Value>;
-  Provider: React.FC<ProviderProps>;
+  useHydrated(): boolean;
+  useStorage(): UseStorage<T>;
+  Provider: React.FC;
 }
