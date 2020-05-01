@@ -1,6 +1,6 @@
 {
   "version": "0.1.0",
-  "name": "use-stored",
+  "name": "use-hydrated-storage",
   "repository": "https://github.com/rzane/use-hydrated-storage",
   "description": "Store and rehydrate values in storage.",
   "license": "MIT",

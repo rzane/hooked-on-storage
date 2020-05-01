@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -euo pipefail
+
+echo "==>> Installing dependencies..."
+yarn install
+
+echo "==>> Building..."
+yarn prepack
+
+echo "==>> Preparing example app..."
+yarn --cwd example install
+ln -sf "$(pwd)/dist/" "$(pwd)/example/node_modules/use-hydrated-storage/dist"

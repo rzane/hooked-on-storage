@@ -1,7 +1,22 @@
 import React from "react";
-import { createStorage, Storage } from "../src";
-import { createMemoryAdapter } from "./utils";
+import { createStorage, Storage, Adapter } from "../src";
 import { renderHook } from "@testing-library/react-hooks";
+
+export const createMemoryAdapter = (): Adapter => {
+  const stored: Record<string, any> = {};
+
+  return {
+    getItem(key) {
+      return key in stored ? stored[key] : null;
+    },
+    setItem(key, value) {
+      stored[key] = value;
+    },
+    removeItem(key) {
+      delete stored[key];
+    },
+  };
+};
 
 const makeStorage = () => {
   const adapter = createMemoryAdapter();
