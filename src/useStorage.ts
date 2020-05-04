@@ -1,4 +1,4 @@
-import { useContext } from "./Provider";
+import { useStorageContext } from "./StorageProvider";
 import { Storage } from "./types";
 
 /**
@@ -7,7 +7,7 @@ import { Storage } from "./types";
 export const useStorage = <T>(
   storage: Storage<T>
 ): [T, (value: T) => Promise<void>, boolean] => {
-  const context = useContext();
+  const context = useStorageContext();
   const value = context.values[storage.key];
   const hydrated = context.hydrated[storage.key];
 

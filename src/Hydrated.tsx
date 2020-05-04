@@ -1,29 +1,21 @@
 import React from "react";
 import { HydratedProps } from "./types";
-import { useContext } from "./Provider";
+import { useStorageContext } from "./StorageProvider";
 
 /**
- * Used to display a loading screen until the specified storage
- * properties are loaded.
+ * Display a loading screen until storage is hydrated.
  */
-export const Hydrated: React.FC<HydratedProps> = ({
-  storages,
-  fallback,
-  children,
-}) => {
-  const context = useContext();
+export const Hydrated: React.FC<HydratedProps> = (props) => {
+  const context = useStorageContext();
 
-  const hydrated = React.useMemo(() => {
-    return storages.every((storage) => {
-      if (storage.key in context.hydrated) {
-        return context.hydrated[storage.key];
-      }
+  const hydrated = React.useMemo(
+    () => Object.values(context.hydrated).every(Boolean),
+    [context.hydrated]
+  );
 
-      throw new Error(
-        `Storage for key '${storage.key}' was not passed to the <Provider />.`
-      );
-    });
-  }, [storages, context.hydrated]);
-
-  return <React.Fragment>{hydrated ? children : fallback}</React.Fragment>;
+  return (
+    <React.Fragment>
+      {hydrated ? props.children : props.fallback}
+    </React.Fragment>
+  );
 };

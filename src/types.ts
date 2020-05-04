@@ -41,10 +41,10 @@ export interface Storage<T> {
 }
 
 /**
- * The props that should be passed to `<Provider />`.
+ * The props that should be passed to `<StorageProvider />`.
  */
-export interface ProviderProps {
-  storages: Array<Storage<any>>;
+export interface StorageProviderProps {
+  hydrate: Array<Storage<any>>;
   children: React.ReactNode;
 }
 
@@ -52,7 +52,6 @@ export interface ProviderProps {
  * The props that should be passed to `<Hydrated />`.
  */
 export interface HydratedProps {
-  storages: Array<Storage<any>>;
   fallback: React.ReactNode;
   children: React.ReactNode;
 }

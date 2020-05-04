@@ -8,7 +8,10 @@ import {
   useStorage,
 } from "use-hydrated-storage";
 
-// Slow down local storage so we see the hydration
+/**
+ * Create a custom storage implementation that takes a long time
+ * to read values. This allows us to see the hydration fallback.
+ */
 const slowLocalStorage: Adapter = {
   async getItem(key) {
     await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -22,27 +25,36 @@ const slowLocalStorage: Adapter = {
   },
 };
 
-const Count = createStorage<number>({
+/**
+ * Create our stored property.
+ */
+const counter = createStorage<number>({
   key: "count",
   defaultValue: 0,
   adapter: slowLocalStorage,
 });
 
+/**
+ * Create a component to inteact with storage.
+ */
 const Counter = () => {
-  const [count, setCount] = useStorage(Count);
+  const [count, setCount] = useStorage(counter);
 
   return (
     <div>
+      <h1>{count}</h1>
       <button onClick={() => setCount(count - 1)}>-</button>
       <button onClick={() => setCount(count + 1)}>+</button>
-      <h1>{count}</h1>
     </div>
   );
 };
 
+/**
+ * Render our component, but before we do, make sure it's hydrated.
+ */
 ReactDOM.render(
-  <Provider storages={[Count]}>
-    <Hydrated storages={[Count]} fallback={<p>Rehydrating...</p>}>
+  <Provider storages={[counter]}>
+    <Hydrated fallback={<p>Hydrating...</p>}>
       <Counter />
     </Hydrated>
   </Provider>,
