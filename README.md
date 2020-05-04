@@ -1,4 +1,4 @@
-# hooked-on-storage
+# 💾 hooked-on-storage
 
 A React hook to store properties in storage. It is compatible with the following storage adapters:
 
@@ -8,7 +8,7 @@ A React hook to store properties in storage. It is compatible with the following
 
 ## Usage
 
-## Step 1: Define your stored property
+### Step 1: Define your stored property
 
 ```typescript
 import { createStorage } from "hooked-on-storage";
@@ -56,7 +56,7 @@ counter.onChange((value) => {
 });
 ```
 
-## Step 2: Setup the provider
+### Step 2: Setup the provider
 
 At the top of your component tree, you'll need to define a provider for your storage.
 
@@ -77,7 +77,7 @@ ReactDOM.render(
 Using the `<Hydrated />` component is entirely optional. It allows us to render
 a loading screen while we load the values from storage.
 
-## Step 3: Read a value from storage
+### Step 3: Read a value from storage
 
 ```jsx
 import { useStorage } from "hooked-on-storage";
