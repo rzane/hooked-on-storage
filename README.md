@@ -2,10 +2,10 @@
 
 <div align="center">
 
-![Build](https://img.shields.io/travis/promptworks/hooked-on-storage/master?style=flat-square)
-![Version](https://img.shields.io/npm/v/hooked-on-storage?style=flat-square)
-![Size](https://img.shields.io/bundlephobia/minzip/hooked-on-storage?style=flat-square)
-![License](https://img.shields.io/npm/l/hooked-on-storage?style=flat-square)
+![Build](https://github.com/rzane/hooked-on-storage/workflows/CI/badge.svg)
+![Version](https://img.shields.io/npm/v/hooked-on-storage)
+![Size](https://img.shields.io/bundlephobia/minzip/hooked-on-storage)
+![License](https://img.shields.io/npm/l/hooked-on-storage)
 
 </div>
 
