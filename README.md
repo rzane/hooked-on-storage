@@ -1,10 +1,19 @@
 <h1 align="center">Hooked on Storage</h1>
 
+<div align="center">
+
+![Build](https://img.shields.io/travis/promptworks/hooked-on-storage/master?style=flat-square)
+![Version](https://img.shields.io/npm/v/hooked-on-storage?style=flat-square)
+![Size](https://img.shields.io/bundlephobia/minzip/hooked-on-storage?style=flat-square)
+![License](https://img.shields.io/npm/l/hooked-on-storage?style=flat-square)
+
+</div>
+
 A React hook to provide efficient access to properties in storage. It is compatible with the following storage adapters:
 
-- `localStorage`
-- `sessionStorage`
-- `@react-native-community/AsyncStorage`
+- [`localStorage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
+- [`sessionStorage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage)
+- [`@react-native-community/async-storage`](https://github.com/react-native-community/async-storage)
 
 ## Install
 
@@ -95,7 +104,7 @@ const Counter = () => {
   const decrement = () => setCount(count - 1);
   const increment = () => setCount(count + 1);
 
-  // Because we used `<Hydrated />` above, this should never be true.
+  // Because we used `<Hydrated />` above, this will never be false.
   if (!hydrated) {
     return <p>Hydrating...</p>;
   }
