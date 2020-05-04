@@ -6,9 +6,9 @@
     "start": "parcel index.html"
   },
   "dependencies": {
+    "hooked-on-storage": "link:../",
     "react": "link:../node_modules/react",
-    "react-dom": "link:../node_modules/react-dom",
-    "use-hydrated-storage": "link:../"
+    "react-dom": "link:../node_modules/react-dom"
   },
   "devDependencies": {
     "parcel-bundler": "^1.12.4"

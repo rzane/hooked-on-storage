@@ -6,7 +6,7 @@ import {
   Provider,
   Hydrated,
   useStorage,
-} from "use-hydrated-storage";
+} from "hooked-on-storage";
 
 /**
  * Create a custom storage implementation that takes a long time

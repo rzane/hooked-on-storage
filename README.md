@@ -1,4 +1,4 @@
-# use-hydrated-storage
+# hooked-on-storage
 
 A React hook to store properties in storage. It is compatible with the following storage adapters:
 
@@ -11,7 +11,7 @@ A React hook to store properties in storage. It is compatible with the following
 ## Step 1: Define your stored property
 
 ```typescript
-import { createStorage } from "use-hydrated-storage";
+import { createStorage } from "hooked-on-storage";
 
 const counter = createStorage<number>({
   key: "count",
@@ -61,7 +61,7 @@ counter.onChange((value) => {
 At the top of your component tree, you'll need to define a provider for your storage.
 
 ```jsx
-import { StorageProvider, Hydrated } from "use-hydrated-storage";
+import { StorageProvider, Hydrated } from "hooked-on-storage";
 
 ReactDOM.render(
   <StorageProvider hydrate={[counter]}>
@@ -80,12 +80,17 @@ a loading screen while we load the values from storage.
 ## Step 3: Read a value from storage
 
 ```jsx
-import { useStorage } from "use-hydrated-storage";
+import { useStorage } from "hooked-on-storage";
 
 const Counter = () => {
-  const [count, setCount] = useStorage(counter);
+  const [count, setCount, hydrated] = useStorage(counter);
   const decrement = () => setCount(count - 1);
   const increment = () => setCount(count + 1);
+
+  // Because we used `<Hydrated />` above, this should never be true.
+  if (!hydrated) {
+    return <p>Hydrating...</p>;
+  }
 
   return (
     <div>

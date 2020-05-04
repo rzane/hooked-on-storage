@@ -1,7 +1,7 @@
 {
   "version": "0.1.0",
-  "name": "use-hydrated-storage",
-  "repository": "https://github.com/rzane/use-hydrated-storage",
+  "name": "hooked-on-storage",
+  "repository": "https://github.com/rzane/hooked-on-storage",
   "description": "Store and rehydrate values in storage.",
   "license": "MIT",
   "source": "src/index.ts",
