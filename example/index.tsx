@@ -3,7 +3,7 @@ import * as ReactDOM from "react-dom";
 import {
   createStorage,
   Adapter,
-  Provider,
+  StorageProvider,
   Hydrated,
   useStorage,
 } from "hooked-on-storage";
@@ -42,7 +42,7 @@ const Counter = () => {
 
   return (
     <div>
-      <h1>{count}</h1>
+      <h2>{count}</h2>
       <button onClick={() => setCount(count - 1)}>-</button>
       <button onClick={() => setCount(count + 1)}>+</button>
     </div>
@@ -53,10 +53,12 @@ const Counter = () => {
  * Render our component, but before we do, make sure it's hydrated.
  */
 ReactDOM.render(
-  <Provider storages={[counter]}>
+  <StorageProvider hydrate={[counter]}>
+    <h1>Counter</h1>
+
     <Hydrated fallback={<p>Hydrating...</p>}>
       <Counter />
     </Hydrated>
-  </Provider>,
+  </StorageProvider>,
   document.getElementById("root")
 );

@@ -17,7 +17,6 @@
     "clean": "rm -rf dist",
     "format": "prettier --write '{src,test}/**/*.{js,ts,tsx}'",
     "format:check": "prettier --check '{src,test}/**/*.{js,ts,tsx}'",
-    "start": "microbundle --jsx React.createElement --watch --raw --no-compress",
     "prepack": "microbundle --jsx React.createElement"
   },
   "jest": {
