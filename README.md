@@ -1,14 +1,24 @@
-# 💾 hooked-on-storage
+<h1 align="center">Hooked on Storage</h1>
 
-A React hook to store properties in storage. It is compatible with the following storage adapters:
+A React hook to provide efficient access to properties in storage. It is compatible with the following storage adapters:
 
 - `localStorage`
 - `sessionStorage`
 - `@react-native-community/AsyncStorage`
 
+## Install
+
+This package can be installed from NPM.
+
+```sh
+$ yarn add hooked-on-storage
+```
+
 ## Usage
 
-### Step 1: Define your stored property
+### 1. Create a stored property with `createStorage`
+
+First, you'll need to declare a stored property:
 
 ```typescript
 import { createStorage } from "hooked-on-storage";
@@ -20,9 +30,7 @@ const counter = createStorage<number>({
 });
 ```
 
-The `counter` provides some conveniences over using `localStorage` directly.
-
-If you directly modify a value in `localStorage` or your components won't rerender. So, always mutate `localStorage` using the value returned from `createStorage`.
+The `counter` provides some conveniences over using `localStorage` directly. Keep in mind that if you directly modify a value in `localStorage` or your components won't rerender.
 
 #### Set the value
 
@@ -56,7 +64,7 @@ counter.onChange((value) => {
 });
 ```
 
-### Step 2: Setup the provider
+### 2: Setup the `<StorageProvider />`
 
 At the top of your component tree, you'll need to define a provider for your storage.
 
@@ -77,7 +85,7 @@ ReactDOM.render(
 Using the `<Hydrated />` component is entirely optional. It allows us to render
 a loading screen while we load the values from storage.
 
-### Step 3: Read a value from storage
+### Step 3: Use a stored property with `useStorage`
 
 ```jsx
 import { useStorage } from "hooked-on-storage";
