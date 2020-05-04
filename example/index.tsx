@@ -1,6 +1,12 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { createStorage, Adapter } from "use-hydrated-storage";
+import {
+  createStorage,
+  Adapter,
+  Provider,
+  Hydrated,
+  useStorage,
+} from "use-hydrated-storage";
 
 // Slow down local storage so we see the hydration
 const slowLocalStorage: Adapter = {
@@ -18,12 +24,12 @@ const slowLocalStorage: Adapter = {
 
 const Count = createStorage<number>({
   key: "count",
-  adapter: slowLocalStorage,
   defaultValue: 0,
+  adapter: slowLocalStorage,
 });
 
 const Counter = () => {
-  const [count, setCount] = Count.useStorage();
+  const [count, setCount] = useStorage(Count);
 
   return (
     <div>
@@ -35,10 +41,10 @@ const Counter = () => {
 };
 
 ReactDOM.render(
-  <Count.Provider>
-    <Count.Hydrated fallback={<p>Rehydrating...</p>}>
+  <Provider storages={[Count]}>
+    <Hydrated storages={[Count]} fallback={<p>Rehydrating...</p>}>
       <Counter />
-    </Count.Hydrated>
-  </Count.Provider>,
+    </Hydrated>
+  </Provider>,
   document.getElementById("root")
 );

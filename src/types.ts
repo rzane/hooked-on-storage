@@ -1,9 +1,5 @@
 /**
- * Any storage implementation, such as:
- *
- *   - `localStorage`
- *   - `sessionStorage`
- *   - `AsyncStorage`
+ * Any storage implementation (ex. `localStorage`, `sessionStorage`, or `AsyncStorage`)
  */
 export interface Adapter {
   getItem(key: string): string | null | Promise<string | null>;
@@ -23,46 +19,40 @@ export type Config<T> = {
 };
 
 /**
- * Props for the `<Provider />` component.
+ * This function receives an updated value.
  */
-export interface ProviderProps {
-  children: React.ReactNode;
-}
+export type Listener<T> = (value: T) => void;
 
 /**
- * Props for the `<Hydrated />` component.
+ * This function can be called to unsubscribe from events.
  */
-export interface HydratedProps {
-  fallback: React.ReactNode;
-  children: React.ReactNode;
-}
+export type RemoveListener = () => void;
 
 /**
- * The context that is passed down via the provider.
- */
-export interface StorageContext<T> {
-  value: T;
-  hydrated: boolean;
-}
-
-/**
- * The function used to change a value in state.
- */
-export type SetStorage<T> = (value: T) => Promise<void>;
-
-/**
- * The value returned from `useStorage`.
- */
-export type UseStorage<T> = [T, SetStorage<T>, boolean];
-
-/**
- * Represents a stored property
+ * Represents a property in storage.
  */
 export interface Storage<T> {
+  key: string;
+  defaultValue: T;
   get(): Promise<T>;
   set(value: T): Promise<void>;
   remove(): Promise<void>;
-  useStorage(): UseStorage<T>;
-  Hydrated: React.FC<HydratedProps>;
-  Provider: React.FC<ProviderProps>;
+  onChange(listener: Listener<T>): RemoveListener;
+}
+
+/**
+ * The props that should be passed to `<Provider />`.
+ */
+export interface ProviderProps {
+  storages: Array<Storage<any>>;
+  children: React.ReactNode;
+}
+
+/**
+ * The props that should be passed to `<Hydrated />`.
+ */
+export interface HydratedProps {
+  storages: Array<Storage<any>>;
+  fallback: React.ReactNode;
+  children: React.ReactNode;
 }

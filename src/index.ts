@@ -1,2 +1,5 @@
 export * from "./types";
-export * from "./createStorage";
+export { createStorage } from "./createStorage";
+export { useStorage } from "./useStorage";
+export { Provider } from "./Provider";
+export { Hydrated } from "./Hydrated";
